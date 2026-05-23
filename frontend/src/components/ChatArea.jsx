@@ -59,13 +59,27 @@ export default function ChatArea({ onShowProfile }) {
   const [photos, setPhotos] = useState([])
   const [chatFiles, setChatFiles] = useState([])
 
-  useEffect(() => {
-    if (!activeChat || !token) return
-    setPhotos([]); setChatFiles([])
-    fetch(`/api/chats/${activeChat.id}/media`, { headers: { Authorization: `Bearer ${token}` } })
+  const fetchMedia = (chatId) => {
+    if (!chatId || !token) return
+    fetch(`/api/chats/${chatId}/media`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d) { setPhotos(d.photos || []); setChatFiles(d.files || []) } })
       .catch(() => {})
+  }
+
+  useEffect(() => {
+    if (!activeChat || !token) return
+    setPhotos([]); setChatFiles([])
+    fetchMedia(activeChat.id)
+  }, [activeChat?.id])
+
+  useEffect(() => {
+    const hasDeletedMedia = messages.some(m => m.is_deleted && (m.file_url || m.files?.length))
+    if (hasDeletedMedia && activeChat) fetchMedia(activeChat.id)
+  }, [messages])
+
+  useEffect(() => {
+    if (!activeChat || !token) return
     // Загружаем участников для @меншена (только для групп)
     if (activeChat.is_group && activeChat.name !== 'Избранное') {
       fetchChatMembers(activeChat.id, token).then(m => setGroupMembers(m || []))
