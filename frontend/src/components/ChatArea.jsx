@@ -999,14 +999,14 @@ export default function ChatArea({ onShowProfile }) {
 
       {/* Инфопанель группы */}
       {infoPanel && !isFavorites && isGroup && (
-        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, zIndex: 20 }}>
+        <div style={{ position: 'fixed', top: 0, right: 0, bottom: 0, zIndex: 200 }}>
           <GroupMembersPanel onClose={() => setInfoPanel(false)} />
         </div>
       )}
 
       {/* Инфопанель */}
-      {infoPanel && !isFavorites && !isGroup && (
-        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '290px', background: '#fff', borderLeft: '1px solid #e5e7eb', zIndex: 20, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+      {infoPanel && !isGroup && (
+        <div style={{ position: 'fixed', top: 0, right: 0, bottom: 0, width: '290px', background: '#fff', borderLeft: '1px solid #e5e7eb', zIndex: 200, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
           {/* Шапка инфопанели */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderBottom: '1px solid #f0f0f0', flexShrink: 0 }}>
             {infoPanelView !== 'main' ? (
@@ -1027,8 +1027,8 @@ export default function ChatArea({ onShowProfile }) {
 
           {infoPanelView === 'main' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-              {/* Информация о собеседнике */}
-              <div style={{ padding: '20px 16px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', borderBottom: '1px solid #f0f0f0' }}>
+              {/* Информация о собеседнике — только не для Избранного */}
+              <div style={{ padding: '20px 16px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', borderBottom: '1px solid #f0f0f0', display: isFavorites ? 'none' : 'flex' }}>
                 <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#e8eaed', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <span style={{ fontSize: '22px', fontWeight: 600, color: '#5f6368' }}>
                     {otherUser?.display_name?.charAt(0)?.toUpperCase() || '?'}
