@@ -1,0 +1,37 @@
+# ---- Секреты и окружение ----
+.env
+.env.local
+.env.production
+.env.development
+
+# ---- Python ----
+backend/venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+
+# ---- Загрузки пользователей ----
+backend/uploads/
+
+# ---- Node.js (фронтенд) ----
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+
+# ---- Логи ----
+*.log
+npm-debug.log*
+
+# ---- IDE ----
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+.continue/
+
+# ---- Прочее ----
+*.suo
+*.sw?
