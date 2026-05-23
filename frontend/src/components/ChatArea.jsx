@@ -71,7 +71,7 @@ export default function ChatArea({ onShowProfile }) {
     if (!activeChat || !token) return
     setPhotos([]); setChatFiles([])
     fetchMedia(activeChat.id)
-  }, [activeChat?.id])
+  }, [activeChat?.id, token])
 
   useEffect(() => {
     const hasDeletedMedia = messages.some(m => m.is_deleted && (m.file_url || m.files?.length))
@@ -473,7 +473,7 @@ export default function ChatArea({ onShowProfile }) {
           </div>
         </div>
         <button
-          onClick={() => { setInfoPanel(v => !v); setInfoPanelView('main') }}
+          onClick={() => { setInfoPanel(v => { if (!v && activeChat) fetchMedia(activeChat.id); return !v }); setInfoPanelView('main') }}
           style={{ width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', background: infoPanel ? '#eff6ff' : 'transparent', cursor: 'pointer', marginRight: '20px' }}
           onMouseEnter={e => { if (!infoPanel) e.currentTarget.style.background = '#f3f4f6' }}
           onMouseLeave={e => { if (!infoPanel) e.currentTarget.style.background = 'transparent' }}
